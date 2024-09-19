@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: busybox-pod
+  name: rados-block-pod
 spec:
   containers:
   - name: busybox

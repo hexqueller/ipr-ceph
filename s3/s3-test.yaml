@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ceph-bucket-checker
+spec:
+  template:
+    spec:
+      containers:
+      - name: ceph-bucket-checker
+        image: hexqueller/s3test
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: ceph-bucket
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ceph-bucket
+              key: AWS_SECRET_ACCESS_KEY
+        - name: BUCKET_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: ceph-bucket
+              key: BUCKET_HOST
+        - name: BUCKET_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ceph-bucket
+              key: BUCKET_PORT
+        - name: BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: ceph-bucket
+              key: BUCKET_NAME
+        - name: S3_ENDPOINT_URL
+          value: "http://$(BUCKET_HOST):$(BUCKET_PORT)"
+      restartPolicy: Never
+  backoffLimit: 4

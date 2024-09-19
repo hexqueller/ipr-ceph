@@ -8,7 +8,7 @@ apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: external-store
-  namespace: rook-ceph # namespace:cluster
+  namespace: rook-ceph-external # namespace:cluster
 spec:
   gateway:
     # The port on which **ALL** the gateway(s) are listening on.
@@ -16,5 +16,6 @@ spec:
     port: 80
     externalRgwEndpoints:
       - ip: 10.0.0.21
+        # hostname: ceph01
       - ip: 10.0.0.22
-      - ip: 10.0.0.23
+        # hostname: ceph02
